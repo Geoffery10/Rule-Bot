@@ -1,0 +1,39 @@
+name: Discord Message Updater
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  update-discord-rules:
+    runs-on: ubuntu-latest
+    environment: Discord-Bot
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run Discord update script
+      run: |
+        # Read rules.json content
+        RULES_CONTENT=$(cat rules.json)
+        
+        # Make Discord API request
+        curl -X POST \
+          "https://discord.com/api/v10/channels/{CHANNEL_ID}" \
+          -H "Authorization: Bot ${BOT_TOKEN}" \
+          -H "Content-Type: application/json" \
+          -d "{\"content\": \"${RULES_CONTENT}\"}"
+      env:
+        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        MESSAGE_ID: ${{ secrets.MESSAGE_ID }}
+        CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
