@@ -11,21 +11,20 @@ jobs:
     environment: Discord-Bot
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Run Discord update script
-      run: |
-        # Read rules.json content
-        RULES_CONTENT=$(cat rules.json)
-        
-        # Make Discord API request
-        curl -X POST \
-          "https://discord.com/api/v10/channels/{CHANNEL_ID}" \
-          -H "Authorization: Bot ${BOT_TOKEN}" \
-          -H "Content-Type: application/json" \
-          -d "{\"content\": \"${RULES_CONTENT}\"}"
-      env:
-        BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-        MESSAGE_ID: ${{ secrets.MESSAGE_ID }}
-        CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: python3 -m pip install -U discord.py
+
+      - name: Run Discord updater
+        run: python discord_updater.py
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+          MESSAGE_ID: ${{ secrets.MESSAGE_ID }}
