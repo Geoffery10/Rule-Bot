@@ -9,15 +9,38 @@ CHANNEL_ID = os.getenv("CHANNEL_ID")
 
 class MyClient(discord.Client):
     async def on_ready(self):
+        # Generate the embed
+        try:
+            embed = await self.generate_embed()
+        except Exception as e:
+            print(f"Error generating embed: {e}")
+            return
+        
+        # Fetch the channel
+        try:
+            channel = await self.fetch_channel(530211933215784960)
+            print(f'{channel.name} channel fetched successfully!')
+        except discord.NotFound:
+            print("Channel not found. Please check the CHANNEL_ID.")
+            return
+        
+        # Update or post the message
+        try:
+            message = await channel.fetch_message(1399573981090283520)
+            await message.edit(embed=embed)
+        except discord.NotFound:
+            print("Message not found, creating a new one.")
+            # Send the message
+            await channel.send(embed=embed)
+        
+        # Shutdown the bot
+        await client.close()
+        
+    async def generate_embed(self):
         with open("rules.json") as json_file:
             data = json.load(json_file)
         embed_data = data["embeds"][0]
-        print(embed_data)
         
-        # Fetch the channel
-        channel = await self.fetch_channel(530211933215784960)
-        print(f'{channel.name} channel fetched successfully!')
-
         embed = discord.Embed(
             title=embed_data['title'], 
             description=embed_data['description'], 
@@ -32,10 +55,7 @@ class MyClient(discord.Client):
         embed.set_footer(text='Updated as of')
         embed.timestamp = discord.utils.utcnow()
         
-        # Send the message
-        await channel.send(embed=embed)
-        # Shutdown the bot
-        await client.close()
+        return embed
 
 intents = discord.Intents.default()
 intents.message_content = True
