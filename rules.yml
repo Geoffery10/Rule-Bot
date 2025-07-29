@@ -18,6 +18,15 @@ embeds:
     title: BGE Server Rules
     footer:
       text: Updated as of
+    embeds:
+  # - id: 467086058
+  #   description: |
+  #     This is a test
+  #   fields: []
+  #   color: 16715547
+  #   title: Example Embed
+  #   footer:
+  #     text: Updated as of
 components: []
 actions: {}
 flags: 0

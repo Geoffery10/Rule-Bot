@@ -16,7 +16,7 @@ class MyClient(discord.Client):
     async def on_ready(self):
         # Generate the embed
         try:
-            embed = await self.generate_embed()
+            embeds = await self.generate_embed()
         except Exception as e:
             print(f"Error generating embed: {e}")
             return
@@ -32,11 +32,11 @@ class MyClient(discord.Client):
         # Update or post the message
         try:
             message = await channel.fetch_message(1399573981090283520)
-            await message.edit(embed=embed)
+            await message.edit(embeds=embeds)
         except discord.NotFound:
             print("Message not found, creating a new one.")
             # Send the message
-            await channel.send(embed=embed)
+            await channel.send(embeds=embeds)
 
         # Shutdown the bot
         await client.close()
@@ -47,22 +47,26 @@ class MyClient(discord.Client):
                 data = yaml.safe_load(stream)
             except yaml.YAMLError as exc:
                 print(exc)
-        embed_data = data["embeds"][0]
+        embeds = data["embeds"]
 
-        embed = discord.Embed(
-            title=embed_data['title'],
-            description=embed_data['description'],
-            color=embed_data['color'])
-        try:
-            embed.set_thumbnail(url=embed_data['thumbnail']['url'])
-        except KeyError:
-            print("Thumbnail not found in embed data.")
+        created_embeds = []
 
-        # Add timestamped footer
-        embed.set_footer(text='Updated as of')
-        embed.timestamp = discord.utils.utcnow()
+        for embed_data in embeds:
+            embed = discord.Embed(
+                title=embed_data['title'],
+                description=embed_data['description'],
+                color=embed_data['color'])
+            try:
+                embed.set_thumbnail(url=embed_data['thumbnail']['url'])
+            except KeyError:
+                print("Thumbnail not found in embed data.")
 
-        return embed
+            # Add timestamped footer
+            embed.set_footer(text='Updated as of')
+            embed.timestamp = discord.utils.utcnow()
+            created_embeds.append(embed)
+
+        return created_embeds
 
 
 intents = discord.Intents.default()
