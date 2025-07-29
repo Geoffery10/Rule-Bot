@@ -4,8 +4,6 @@ import discord
 
 try:
     from dotenv import load_dotenv
-    load_dotenv()
-except ImportError:
     print("Warning: dotenv module not found.")
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
@@ -66,6 +64,10 @@ class MyClient(discord.Client):
             embed.timestamp = discord.utils.utcnow()
             created_embeds.append(embed)
 
+        # Limit to 10 embeds
+        if len(created_embeds) > 10:
+            print("Warning: More than 10 embeds found, only the first 10 will be used.")
+            created_embeds = created_embeds[:10]
         return created_embeds
 
 
