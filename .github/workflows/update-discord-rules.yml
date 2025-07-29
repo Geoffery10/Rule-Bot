@@ -20,7 +20,7 @@ jobs:
           python-version: 3.11
 
       - name: Install dependencies
-        run: python3 -m pip install -U discord.py
+        run: pip install -r requirements.txt
 
       - name: Run Discord updater
         run: python discord_updater.py
