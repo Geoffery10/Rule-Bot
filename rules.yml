@@ -1,0 +1,23 @@
+content: ""
+embeds:
+  - id: 467086057
+    description: |
+      ## 1. :woman_elf: NO ELVES ALLOWED
+      ## 2. :underage: Adult content may be posted **ONLY** in 18+ channels. 
+      This includes anything remotely adult including but not limited to *sexual themes* or *extreme violence*.
+      ## 3. :pushpin: Check channel rules! 
+      Some channels have specific rules in their descriptions or pinned messages. These rules should be followed just the same as the main server rules, and may result in warnings, kicks, or bans if broken.
+      ## 4. :people_hugging: Respect other users
+      Remember everyone here is human and deserves the same respect you do. Your role/rank does not give you special privilege (except for the <@&272521325619445762>).
+      ## 5. :wind_blowing_face: Let the chat breathe
+      Do not send the same message more than 3 times in a row. Do not gif-spam or ping-spam in general chats (if you want someone's attention DM them).
+      ## 6. :speech_balloon: Communicate civilly and understandably
+      Contribute to the conversation and community, don't just send a reaction image or gif and disappear into the shadows.
+    fields: []
+    color: 16715547
+    title: BGE Server Rules
+    footer:
+      text: Updated as of
+components: []
+actions: {}
+flags: 0
