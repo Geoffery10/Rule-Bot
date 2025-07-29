@@ -4,6 +4,8 @@ import discord
 
 try:
     from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
     print("Warning: dotenv module not found.")
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
